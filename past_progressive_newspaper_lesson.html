@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 4 | Animals & Adventures</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --paper2: #ede8db;
+    --accent: #2e7d4f;
+    --accent2: #e8a020;
+    --accent3: #c0392b;
+    --muted: #7a7060;
+    --line: #c8bfa8;
+    --success: #2e7d4f;
+    --error: #c0392b;
+    --warning: #e8a020;
+    --card: #fff9f0;
+    --shadow: rgba(30,20,5,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 27px, var(--line) 27px, var(--line) 28px),
+      linear-gradient(135deg, #f5f0e8 0%, #ede5d0 100%);
+  }
+
+  /* HEADER */
+  .lesson-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 24px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  .header-subtitle {
+    font-size: 0.8rem;
+    opacity: 0.6;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 2px;
+  }
+
+  .score-badge {
+    background: var(--accent2);
+    color: var(--ink);
+    padding: 8px 20px;
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* TAB NAV */
+  .tab-nav {
+    display: flex;
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px 20px;
+    background: none;
+    border: none;
+    color: rgba(245,240,232,0.5);
+    cursor: pointer;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .tab-btn:hover { color: var(--paper); }
+  .tab-btn.active {
+    color: var(--accent2);
+    border-bottom-color: var(--accent2);
+  }
+
+  .tab-btn .tab-number {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    opacity: 0.5;
+    margin-bottom: 2px;
+  }
+
+  .tab-btn .done-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: white;
+  }
+  .tab-btn.completed .done-check { display: flex; }
+
+  /* MAIN */
+  .tab-content {
+    display: none;
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease;
+  }
+  .tab-content.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION HEADERS */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-letter {
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+
+  /* INSTRUCTION BOX */
+  .instruction {
+    background: var(--card);
+    border-left: 4px solid var(--accent2);
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    box-shadow: 2px 2px 8px var(--shadow);
+  }
+
+  /* GRAMMAR REFERENCE */
+  .grammar-box {
+    background: linear-gradient(135deg, #1a1208 0%, #2d2010 100%);
+    color: var(--paper);
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    border-radius: 2px;
+    box-shadow: 4px 4px 20px var(--shadow);
+  }
+
+  .grammar-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent2);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .grammar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 16px;
+  }
+
+  .grammar-col {
+    background: rgba(255,255,255,0.06);
+    padding: 16px;
+    border-radius: 2px;
+  }
+
+  .grammar-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .grammar-col p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    opacity: 0.9;
+  }
+
+  .grammar-col .example {
+    font-style: italic;
+    color: #aed6b8;
+    font-size: 0.85rem;
+    margin-top: 8px;
+  }
+
+  /* FILL BLANK EXERCISE */
+  .exercise-text {
+    background: var(--card);
+    padding: 24px 28px;
+    line-height: 2.4;
+    font-size: 1rem;
+    box-shadow: 2px 2px 12px var(--shadow);
+    border: 1px solid var(--line);
+    margin-bottom: 20px;
+  }
+
+  .blank {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: bottom;
+    margin: 0 4px;
+  }
+
+  .blank-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    margin-bottom: 1px;
+  }
+
+  .blank input {
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.95rem;
+    width: 120px;
+    text-align: center;
+    color: var(--ink);
+    outline: none;
+    padding: 2px 4px;
+    transition: border-color 0.3s;
+  }
+
+  .blank input:focus { border-bottom-color: var(--accent2); }
+  .blank input.correct { border-bottom-color: var(--success); color: var(--success); background: rgba(46,125,79,0.06); }
+  .blank input.wrong { border-bottom-color: var(--error); color: var(--error); background: rgba(192,57,43,0.06); }
+  .blank input.retry { border-bottom-color: var(--warning); }
+
+  /* FEEDBACK */
+  .feedback-area {
+    margin-top: 8px;
+    font-size: 0.82rem;
+    min-height: 20px;
+  }
+
+  .feedback-item {
+    padding: 6px 12px;
+    margin: 4px 0;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .feedback-item.correct { background: rgba(46,125,79,0.1); color: var(--success); }
+  .feedback-item.wrong { background: rgba(192,57,43,0.1); color: var(--error); }
+  .feedback-item.hint { background: rgba(232,160,32,0.1); color: var(--warning); }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+  }
+  .btn-primary:hover { background: #246040; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(46,125,79,0.3); }
+
+  .btn-secondary {
+    background: var(--accent2);
+    color: var(--ink);
+  }
+  .btn-secondary:hover { background: #d4901a; transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border: 2px solid var(--ink);
+  }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+
+  .btn-sm {
+    padding: 7px 16px;
+    font-size: 0.82rem;
+  }
+
+  /* MATCHING EXERCISE */
+  .match-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .match-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .match-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .match-item .item-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    min-width: 18px;
+  }
+
+  .match-select {
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.88rem;
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+    padding: 2px 6px;
+    margin-left: 4px;
+  }
+
+  /* NOTES CARD */
+  .notes-card {
+    background: #fffbcc;
+    border: 1px solid #e0d870;
+    padding: 20px 24px;
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    line-height: 2;
+    box-shadow: 3px 3px 12px rgba(0,0,0,0.08);
+    position: relative;
+  }
+
+  .notes-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, #e0d870 0, #e0d870 10px, transparent 10px, transparent 20px);
+  }
+
+  .notes-card .note-name {
+    font-family: 'Playfair Display', serif;
+    font-style: normal;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: var(--accent);
+  }
+
+  .notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+
+  /* SENTENCE BUILDER */
+  .sentence-builder {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    box-shadow: 2px 2px 8px var(--shadow);
+  }
+
+  .sentence-builder .prompt {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .sentence-builder textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    resize: none;
+    outline: none;
+    padding: 8px 0;
+    line-height: 1.8;
+    min-height: 60px;
+  }
+
+  /* NEWSPAPER WRITING */
+  .newspaper-mock {
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 4px 4px 20px rgba(0,0,0,0.15);
+    overflow: hidden;
+  }
+
+  .newspaper-header {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 12px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .newspaper-header .paper-name {
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+  }
+
+  .newspaper-header .tagline {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.15em;
+    margin-top: 4px;
+  }
+
+  .newspaper-body { padding: 24px 28px; }
+
+  .newspaper-body .headline-input {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border: none;
+    border-bottom: 2px dashed var(--line);
+    width: 100%;
+    outline: none;
+    color: var(--ink);
+    background: transparent;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+  }
+
+  .newspaper-body .article-textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: var(--ink);
+    background: transparent;
+    resize: none;
+    min-height: 200px;
+  }
+
+  .paragraph-section {
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+
+  .paragraph-section .para-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  /* PICTURE STRIP */
+  .picture-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .picture-card {
+    background: var(--card);
+    border: 2px solid var(--line);
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .picture-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .picture-card.selected { border-color: var(--accent); background: rgba(46,125,79,0.08); }
+
+  .picture-card .pic-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .picture-card .pic-emoji { font-size: 2.5rem; margin-bottom: 6px; }
+  .picture-card .pic-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
+
+  /* WRITING TIP */
+  .writing-tip {
+    background: linear-gradient(135deg, #fff8e8, #ffefc0);
+    border: 1px solid var(--accent2);
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .writing-tip::before {
+    content: '✍ WRITING TIP';
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--accent2);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .writing-tip p { font-size: 0.9rem; line-height: 1.7; }
+  .writing-tip em { font-weight: 600; color: var(--ink); }
+
+  /* CONNECTORS BOX */
+  .connector-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .connector-pill {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .connector-pill:hover { background: var(--accent); }
+
+  /* SCORE PANEL */
+  .score-panel {
+    background: linear-gradient(135deg, #1a1208, #2d2010);
+    color: var(--paper);
+    padding: 40px;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+
+  .score-panel .big-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--accent2);
+    line-height: 1;
+  }
+
+  .score-panel .score-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    opacity: 0.6;
+    margin-top: 8px;
+  }
+
+  .score-breakdown {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .score-item {
+    background: rgba(255,255,255,0.06);
+    padding: 16px;
+  }
+
+  .score-item .item-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    color: var(--accent2);
+    font-weight: 600;
+  }
+
+  .score-item .item-name {
+    font-size: 0.78rem;
+    opacity: 0.6;
+    margin-top: 4px;
+  }
+
+  /* AI FEEDBACK */
+  .ai-feedback-box {
+    background: var(--card);
+    border: 1px solid var(--line);
+    padding: 20px 24px;
+    margin-top: 20px;
+    box-shadow: 2px 2px 8px var(--shadow);
+  }
+
+  .ai-feedback-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-feedback-box .feedback-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+
+  .loading-dots::after {
+    content: '...';
+    animation: dots 1.5s infinite;
+  }
+
+  @keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.1);
+    height: 3px;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent2);
+    transition: width 0.5s ease;
+  }
+
+  /* UTILS */
+  .mt-20 { margin-top: 20px; }
+  .mt-32 { margin-top: 32px; }
+  .flex { display: flex; }
+  .gap-12 { gap: 12px; }
+  .items-center { align-items: center; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 28px 0;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-right: 6px;
+  }
+
+  .notice {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  /* Responsive */
+  @media (max-width: 680px) {
+    .tab-content { padding: 20px; }
+    .grammar-grid { grid-template-columns: 1fr; }
+    .match-container { grid-template-columns: 1fr; }
+    .notes-grid { grid-template-columns: 1fr; }
+    .picture-strip { grid-template-columns: repeat(2, 1fr); }
+    .score-breakdown { grid-template-columns: 1fr; }
+    .lesson-header { padding: 16px 20px; }
+    .header-title { font-size: 1.1rem; }
+  }
+
+  .connector-sentence {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    line-height: 2;
+  }
+
+  .connector-sentence .conn-select {
+    border: none;
+    border-bottom: 2px solid var(--accent);
+    background: transparent;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+    padding: 2px 8px;
+    min-width: 100px;
+  }
+
+  .conn-select.correct { border-bottom-color: var(--success); color: var(--success); }
+  .conn-select.wrong { border-bottom-color: var(--error); }
+
+  .wh-chart {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .wh-row {
+    display: contents;
+  }
+
+  .wh-q {
+    background: var(--ink);
+    color: var(--accent2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  .wh-a {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  .wh-a input {
+    border: none;
+    border-bottom: 1px dashed var(--line);
+    background: transparent;
+    font-family: 'Source Serif 4', serif;
+    font-size: 0.88rem;
+    width: 100%;
+    outline: none;
+    color: var(--ink);
+    padding: 2px 4px;
+  }
+
+  /* HEBREW HINTS */
+  .heb-hint {
+    display: block;
+    direction: rtl;
+    text-align: right;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 0.8rem;
+    color: #5a4a8a;
+    background: rgba(90,74,138,0.07);
+    border-right: 3px solid #8b6fc8;
+    padding: 7px 12px 7px 10px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    line-height: 1.7;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .heb-hint strong {
+    color: #4a3070;
+  }
+
+  .grammar-box .heb-hint {
+    background: rgba(255,255,255,0.08);
+    border-right-color: var(--accent2);
+    color: #d4c0ff;
+  }
+
+  .grammar-box .heb-hint strong {
+    color: var(--accent2);
+  }
+</style>
+</head>
+<body>
+
+<header class="lesson-header">
+  <div>
+    <div class="header-title">📰 Unit 4 | Animals & Adventures</div>
+    <div class="header-subtitle">Past Progressive · Newspaper Writing · Grade 8 &nbsp;|&nbsp; עבר ממושך · כתיבת כתבה עיתונאית · כיתה ח׳</div>
+  </div>
+  <div class="score-badge" id="headerScore">Score: 0 / 0</div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab(0)" id="tabBtn0">
+    <span class="tab-number">01</span>
+    Grammar Review · דקדוק
+    <span class="done-check">✓</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(1)" id="tabBtn1">
+    <span class="tab-number">02</span>
+    Exercises A–B · תרגילים
+    <span class="done-check">✓</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(2)" id="tabBtn2">
+    <span class="tab-number">03</span>
+    Exercises C–D · תרגילים
+    <span class="done-check">✓</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(3)" id="tabBtn3">
+    <span class="tab-number">04</span>
+    Writing Prep · הכנה
+    <span class="done-check">✓</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(4)" id="tabBtn4">
+    <span class="tab-number">05</span>
+    My Article · הכתבה שלי
+    <span class="done-check">✓</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(5)" id="tabBtn5">
+    <span class="tab-number">★</span>
+    My Score · הציון שלי
+    <span class="done-check">✓</span>
+  </button>
+</nav>
+
+<!-- ============ TAB 0: GRAMMAR ============ -->
+<div class="tab-content active" id="tab0">
+  <div class="section-label">
+    <div class="section-letter" style="background:#2e7d4f">📚</div>
+    <div class="section-title">Grammar Reference — Past Progressive</div>
+  </div>
+
+  <div class="grammar-box">
+    <h3>📖 Past Progressive (= Past Continuous)</h3>
+    <p style="opacity:0.8;font-size:0.88rem;line-height:1.6">We use this tense for an action that was in progress (ongoing) at a specific time in the past. It is often interrupted by a shorter Past Simple action.</p>
+    <span class="heb-hint">🇮🇱 <strong>עבר ממושך</strong> — משמש לתיאור פעולה שהייתה <strong>בעיצומה</strong> בנקודת זמן מסוימת בעבר. לעתים קרובות פעולה קצרה יותר (בעבר פשוט) מפסיקה אותה.</span>
+    
+    <div class="grammar-grid">
+      <div class="grammar-col">
+        <h4>⚡ Formation</h4>
+        <p>
+          <strong>was / were + verb-ing</strong><br><br>
+          I <em>was walking</em> home.<br>
+          She <em>was sitting</em> at the table.<br>
+          They <em>were running</em> in the park.<br><br>
+          ❌ He <em>were working</em> → WRONG<br>
+          ✅ He <em>was working</em> → CORRECT
+        </p>
+        <span class="heb-hint"><strong>בניה:</strong> was/were + פועל עם ing<br>I/He/She/It → <strong>was</strong> + ing<br>You/We/They → <strong>were</strong> + ing</span>
+      </div>
+      <div class="grammar-col">
+        <h4>🔗 With While / When</h4>
+        <p>
+          <strong>while</strong> + Past Progressive<br>
+          <em class="example">While I was working, the monkey appeared.</em><br><br>
+          <strong>when</strong> + Past Simple<br>
+          <em class="example">When she arrived, they were eating.</em><br><br>
+          ⚡ The <em>shorter</em> action = Past Simple<br>
+          ⏳ The <em>longer/ongoing</em> action = Past Progressive
+        </p>
+        <span class="heb-hint"><strong>while</strong> = בזמן ש / כאשר (+ פעולה ממושכת)<br><strong>when</strong> = כאשר (+ פעולה קצרה/פתאומית)<br>הפעולה הארוכה = עבר ממושך | הקצרה = עבר פשוט</span>
+      </div>
+      <div class="grammar-col">
+        <h4>📝 Negative Form</h4>
+        <p>
+          was <strong>not</strong> (wasn't) + verb-ing<br>
+          were <strong>not</strong> (weren't) + verb-ing<br><br>
+          <em class="example">I wasn't working — I was sleeping!</em><br>
+          <em class="example">They weren't driving slowly.</em>
+        </p>
+        <span class="heb-hint"><strong>שלילה:</strong> was<strong>n't</strong> / were<strong>n't</strong> + verb-ing<br>לא הייתי... / לא היו...</span>
+      </div>
+      <div class="grammar-col">
+        <h4>❓ Questions</h4>
+        <p>
+          <strong>Was/Were</strong> + subject + verb-ing?<br><br>
+          <em class="example">What were you doing at 7 o'clock?</em><br>
+          <em class="example">Was she walking her dog?</em>
+        </p>
+        <span class="heb-hint"><strong>שאלה:</strong> Was/Were מגיע <em>לפני</em> הנושא<br>מה עשית? / האם היא...?</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="instruction">
+    <strong>Quick Check!</strong> Choose the correct form for each sentence below.
+    <span class="heb-hint">✏️ <strong>בדיקה מהירה!</strong> השלם את הפועל הנכון בכל משפט — עבר פשוט <em>או</em> עבר ממושך.</span>
+  </div>
+
+  <div id="quickCheck"></div>
+
+  <div class="mt-20 flex gap-12">
+    <button class="btn btn-primary" onclick="checkQuickCheck()">✓ Check My Answers · בדוק תשובות</button>
+    <button class="btn btn-outline" onclick="switchTab(1)">Next: Exercises → · הבא</button>
+  </div>
+
+  <div id="quickCheckFeedback" class="feedback-area mt-20"></div>
+</div>
+
+<!-- ============ TAB 1: EX A + B' ============ -->
+<div class="tab-content" id="tab1">
+  
+  <div class="section-label">
+    <div class="section-letter">A</div>
+    <div class="section-title">Match A to B · Past Simple or Progressive</div>
+  </div>
+
+  <div class="instruction">
+    Match column A to column B to form complete sentences. Then complete the verbs in brackets using <em>Past Simple</em> or <em>Past Progressive</em>.
+    <span class="heb-hint">🔗 <strong>הוראות:</strong> התאם כל משפט מעמודה A לחלקו המתאים מעמודה B כדי ליצור משפט שלם. לאחר מכן, השלם את הפעלים בסוגריים — עבר פשוט <em>או</em> עבר ממושך.</span>
+  </div>
+
+  <div id="exerciseA"></div>
+
+  <div class="mt-20 flex gap-12">
+    <button class="btn btn-primary" onclick="checkExA()">✓ Check Exercise A · בדוק תרגיל A</button>
+  </div>
+  <div id="exAFeedback" class="feedback-area mt-20"></div>
+
+  <hr class="divider">
+
+  <div class="section-label">
+    <div class="section-letter" style="background:#7a5c8a">B′</div>
+    <div class="section-title">Saying "Thank You" — Fill in the blanks · מלא את החסרים</div>
+  </div>
+
+  <div class="instruction">
+    Complete the text about crows and Gabi Mann. Use <em>Past Simple</em> or <em>Past Progressive</em>.
+    <span class="heb-hint">🐦 <strong>הוראות:</strong> קרא את הסיפור על עורבים ו-Gabi Mann. השלם את הפעלים החסרים — עבר פשוט <em>או</em> עבר ממושך. שים לב לאם מדובר בפעולה ממושכת או בפעולה קצרה שהשלימה!</span>
+  </div>
+
+  <div class="exercise-text" id="exBText"></div>
+
+  <div class="mt-20 flex gap-12">
+    <button class="btn btn-primary" onclick="checkExB()">✓ Check Exercise B′ · בדוק תרגיל B</button>
+  </div>
+  <div id="exBFeedback" class="feedback-area mt-20"></div>
+
+  <div class="mt-32 flex gap-12">
+    <button class="btn btn-outline btn-sm" onclick="switchTab(0)">← Back · חזור</button>
+    <button class="btn btn-secondary" onclick="switchTab(2)">Next: More Exercises · תרגילים נוספים →</button>
+  </div>
+</div>
+
+<!-- ============ TAB 2: EX C + D ============ -->
+<div class="tab-content" id="tab2">
+
+  <div class="section-label">
+    <div class="section-letter" style="background:#1565c0">C</div>
+    <div class="section-title">Write Sentences from Notes · כתוב משפטים מהפתקים</div>
+  </div>
+
+  <div class="instruction">
+    Read the notes of two volunteers from an animal rescue organization. Write sentences using <em>while</em> or <em>when</em>. One verb = Past Simple, one verb = Past Progressive.
+    <span class="heb-hint">✍️ <strong>הוראות:</strong> קרא את הפתקים של שני המתנדבים. כתוב משפטים מלאים תוך שימוש ב-<strong>while</strong> או <strong>when</strong>. בכל משפט — פועל אחד בעבר פשוט ופועל אחד בעבר ממושך.</span>
+  </div>
+
+  <div class="notes-grid">
+    <div class="notes-card">
+      <div class="note-name">✏️ Jan's Notes:</div>
+      We / look for animals / in a house / we / find five small cats.<br>
+      My friends and I / take / the cats / to our car / we / see / their mother.<br>
+      One of the cats / escape / our driver / put / it / in the car.
+    </div>
+    <div class="notes-card" style="background:#e8f4f8;border-color:#b0d4e4;">
+      <div class="note-name" style="color:#1565c0">✏️ Chris's Notes:</div>
+      Emily and I / hear / an unusual noise / walk / in the street.<br>
+      We / enter / a house / an old dog / lie / on the floor.<br>
+      Emily / take care of / the dog / I / call / our friends for help.
+    </div>
+  </div>
+
+  <div id="exerciseC"></div>
+
+  <div class="mt-20 flex gap-12">
+    <button class="btn btn-primary" onclick="checkExC()">✓ Check Sentences · בדוק משפטים</button>
+  </div>
+  <div id="exCFeedback" class="feedback-area mt-20"></div>
+
+  <hr class="divider">
+
+  <div class="section-label">
+    <div class="section-letter" style="background:#c0392b">D</div>
+    <div class="section-title">The Escaped Monkey — Fill in the Blanks · הקוף הבורח — מלא חסרים</div>
+  </div>
+
+  <div class="instruction">
+    A monkey escaped from the local zoo. Complete the description with the verbs in brackets. Use <em>Past Simple</em> or <em>Past Progressive</em>.
+    <span class="heb-hint">🐒 <strong>הוראות:</strong> קוף ברח מגן החיות! קראי את תיאור האישה שראתה מה קרה. השלימי את הפעלים בסוגריים — עבר פשוט <em>או</em> עבר ממושך. שאלי את עצמך: האם הפעולה הייתה ממושכת או פתאומית/קצרה?</span>
+  </div>
+
+  <div class="exercise-text" id="exDText"></div>
+
+  <div class="mt-20 flex gap-12">
+    <button class="btn btn-primary" onclick="checkExD()">✓ Check Exercise D · בדוק תרגיל D</button>
+  </div>
+  <div id="exDFeedback" class="feedback-area mt-20"></div>
+
+  <div class="mt-32 flex gap-12">
+    <button class="btn btn-outline btn-sm" onclick="switchTab(1)">← Back · חזור</button>
+    <button class="btn btn-secondary" onclick="switchTab(3)">Next: Writing Prep · הכנה לכתיבה →</button>
+  </div>
+</div>
+
+<!-- ============ TAB 3: WRITING PREP ============ -->
+<div class="tab-content" id="tab3">
+
+  <div class="section-label">
+    <div class="section-letter" style="background:#5d4037">📰</div>
+    <div class="section-title">Writing Preparation — Newspaper Article · הכנה לכתיבת כתבה עיתונאית</div>
+  </div>
+
+  <div class="instruction">
+    Newspaper articles answer the <strong>Wh- questions</strong>: <em>Who? What? Where? When? Why?</em> They use <strong>Past Simple</strong> and <strong>Past Progressive</strong>, and <strong>connectors</strong> to link ideas clearly.
+    <span class="heb-hint">📰 <strong>כתבה עיתונאית</strong> — כתבה עיתונאית עונה על שאלות: <strong>מי? מה? איפה? מתי? למה?</strong> היא כתובה בעבר פשוט ועבר ממושך, ומשתמשת ב<strong>מחברים</strong> כדי לקשר בין הרעיונות.</span>
+  </div>
+
+  <div class="writing-tip">
+    <p>When writing a newspaper article, use <em>connectors</em> to give more information or show contrast:<br>
+    <br>
+    📌 <strong>and</strong> — adds information &nbsp;|&nbsp; <strong>but / however</strong> — shows contrast<br>
+    📌 <strong>in addition / also</strong> — adds more &nbsp;|&nbsp; <strong>even though</strong> — unexpected result<br>
+    <br>
+    ⚠️ We do <em>not</em> usually begin a sentence with <em>and</em> or <em>but</em>.
+    </p>
+    <span class="heb-hint" style="margin-top:12px">
+      <strong>מחברים — connectors:</strong><br>
+      <strong>and</strong> = וגם (מוסיף מידע) &nbsp;|&nbsp; <strong>but</strong> = אבל (ניגוד)<br>
+      <strong>however</strong> = אולם / עם זאת (ניגוד — בתחילת משפט) &nbsp;|&nbsp; <strong>also</strong> = גם<br>
+      <strong>in addition</strong> = בנוסף לכך &nbsp;|&nbsp; <strong>even though</strong> = למרות ש<br>
+      ⚠️ <em>and</em> ו-<em>but</em> בדרך כלל לא מתחילים בהם משפט!
+    </span>
+  </div>
+
+  <div class="section-label" style="margin-top:24px">
+    <div class="section-letter btn-sm" style="background:#5d4037;width:36px;height:36px;font-size:1rem">C</div>
+    <div class="section-title" style="font-size:0.95rem">Connectors — Complete the Sentences</div>
+  </div>
+  <span class="heb-hint" style="display:block;margin-bottom:16px">✏️ <strong>הוראות:</strong> בחר את המחבר המתאים מהרשימה כדי להשלים כל משפט. זכור — <em>however</em> ו-<em>in addition</em> מגיעים בתחילת משפט חדש (עם פסיק אחריהם), ו-<em>and / but</em> מחברים שני חלקי משפט.</span>
+
+  <div id="connectorExercise"></div>
+
+  <div class="mt-20 flex gap-12">
+    <button class="btn btn-primary" onclick="checkConnectors()">✓ Check Connectors · בדוק מחברים</button>
+  </div>
+  <div id="connectorFeedback" class="feedback-area mt-20"></div>
+
+  <hr class="divider">
+
+  <div class="section-label">
+    <div class="section-letter" style="background:#5d4037;width:36px;height:36px;font-size:1rem">📋</div>
+    <div class="section-title" style="font-size:0.95rem">Plan Your Article — Wh- Chart</div>
+  </div>
+
+  <div class="instruction">
+    Look at the 6 pictures below showing a monkey's escape from the zoo. Fill in the Wh- chart to plan your article.
+    <span class="heb-hint">🗺️ <strong>תכנון הכתבה:</strong> הסתכל על 6 התמונות המתארות את בריחת הקוף מגן החיות. מלא את הטבלה — ענה על שאלות מי, מה, איפה, מתי, ולמה. זה יעזור לך לארגן את הכתבה שלך!</span>
+  </div>
+
+  <div class="picture-strip">
+    <div class="picture-card" title="A zookeeper is reading a newspaper. He notices the monkey's cage is open.">
+      <div class="pic-num">1</div>
+      <div class="pic-emoji">🗞️🦧</div>
+      <div class="pic-desc">Zookeeper reads newspaper — notices open cage</div>
+    </div>
+    <div class="picture-card" title="A monkey is driving away in a car!">
+      <div class="pic-num">2</div>
+      <div class="pic-emoji">🚗🐒</div>
+      <div class="pic-desc">Monkey drives away in a car</div>
+    </div>
+    <div class="picture-card" title="A man comes home with shopping bags and finds the monkey at the door.">
+      <div class="pic-num">3</div>
+      <div class="pic-emoji">🛍️🚪</div>
+      <div class="pic-desc">Man arrives home — monkey at his door</div>
+    </div>
+    <div class="picture-card" title="The zookeeper is back at the zoo gates, looking worried.">
+      <div class="pic-num">4</div>
+      <div class="pic-emoji">🏛️😟</div>
+      <div class="pic-desc">Zookeeper returns to zoo gates</div>
+    </div>
+    <div class="picture-card" title="A TV reporter announces 'Monkey Missing' on the news.">
+      <div class="pic-num">5</div>
+      <div class="pic-emoji">📺📢</div>
+      <div class="pic-desc">TV reporter: "Monkey Missing!"</div>
+    </div>
+    <div class="picture-card" title="The monkey is sitting comfortably on a sofa watching TV.">
+      <div class="pic-num">6</div>
+      <div class="pic-emoji">🛋️🐒</div>
+      <div class="pic-desc">Monkey relaxes on sofa at home</div>
+    </div>
+  </div>
+
+  <div class="wh-chart" id="whChart">
+    <div class="wh-q">WHO? <br><span style="font-size:0.65rem;opacity:0.7">מי?</span></div><div class="wh-a"><input type="text" id="wh_who" placeholder="Who is this story about? / על מי הסיפור?"></div>
+    <div class="wh-q">WHAT? <br><span style="font-size:0.65rem;opacity:0.7">מה?</span></div><div class="wh-a"><input type="text" id="wh_what" placeholder="What happened? / מה קרה?"></div>
+    <div class="wh-q">WHERE? <br><span style="font-size:0.65rem;opacity:0.7">איפה?</span></div><div class="wh-a"><input type="text" id="wh_where" placeholder="Where did it happen? / איפה זה קרה?"></div>
+    <div class="wh-q">WHEN? <br><span style="font-size:0.65rem;opacity:0.7">מתי?</span></div><div class="wh-a"><input type="text" id="wh_when" placeholder="When did it happen? / מתי זה קרה?"></div>
+    <div class="wh-q">WHY? <br><span style="font-size:0.65rem;opacity:0.7">למה?</span></div><div class="wh-a"><input type="text" id="wh_why" placeholder="Why? Your ending! / למה? המציא!"></div>
+  </div>
+
+  <div class="mt-32 flex gap-12">
+    <button class="btn btn-outline btn-sm" onclick="switchTab(2)">← Back · חזור</button>
+    <button class="btn btn-secondary" onclick="switchTab(4)">Next: Write My Article · כתוב כתבה →</button>
+  </div>
+</div>
+
+<!-- ============ TAB 4: WRITING ============ -->
+<div class="tab-content" id="tab4">
+
+  <div class="section-label">
+    <div class="section-letter" style="background:#1a1208">✍️</div>
+    <div class="section-title">Write Your Newspaper Article</div>
+  </div>
+
+  <div class="instruction">
+    Write a newspaper article for your school newspaper about the monkey's escape. Use your Wh- chart, Past Simple, Past Progressive, and connectors. Create your own ending!
+    <span class="heb-hint">✍️ <strong>הוראות הכתיבה:</strong> כתוב כתבה עיתונאית לעיתון בית הספר על בריחת הקוף. השתמש בטבלת התכנון שלך, בעבר פשוט ועבר ממושך, ובמחברים. המציא סוף משלך לסיפור!</span>
+  </div>
+
+  <div class="writing-tip">
+    📋 <strong>Remember:</strong> 4 paragraphs — <em>Paragraph 1:</em> Who/What/Where/When &nbsp;|&nbsp; <em>Para 2:</em> What happened first &nbsp;|&nbsp; <em>Para 3:</em> What happened next &nbsp;|&nbsp; <em>Para 4:</em> How did it end?
+    <span class="heb-hint" style="margin-top:10px">
+      📋 <strong>מבנה הכתבה — 4 פסקאות:</strong><br>
+      <strong>פסקה 1:</strong> הקדמה — מי, מה, איפה, מתי? &nbsp;|&nbsp;
+      <strong>פסקה 2:</strong> מה קרה תחילה? &nbsp;|&nbsp;
+      <strong>פסקה 3:</strong> מה קרה לאחר מכן? &nbsp;|&nbsp;
+      <strong>פסקה 4:</strong> הסוף שלך!
+    </span>
+    <br><br>
+    <div class="connector-pills">
+      <span class="connector-pill" onclick="insertConnector('and')">and</span>
+      <span class="connector-pill" onclick="insertConnector('but')">but</span>
+      <span class="connector-pill" onclick="insertConnector('however,')">however,</span>
+      <span class="connector-pill" onclick="insertConnector('in addition,')">in addition,</span>
+      <span class="connector-pill" onclick="insertConnector('also')">also</span>
+      <span class="connector-pill" onclick="insertConnector('even though')">even though</span>
+      <span class="connector-pill" onclick="insertConnector('while')">while</span>
+      <span class="connector-pill" onclick="insertConnector('when')">when</span>
+      <span class="connector-pill" onclick="insertConnector('despite')">despite</span>
+      <span class="connector-pill" onclick="insertConnector('suddenly')">suddenly</span>
+    </div>
+    <p class="notice">💡 Click a word above to insert it at your cursor position.</p>
+  </div>
+
+  <div class="newspaper-mock">
+    <div class="newspaper-header">
+      <div class="paper-name">🏫 SCHOOL NEWS TODAY</div>
+      <div class="tagline">YOUR LOCAL SCHOOL NEWSPAPER · REPORTING WHAT MATTERS</div>
+    </div>
+    <div class="newspaper-body">
+      <input type="text" class="headline-input" id="articleHeadline" placeholder="Write your headline here...">
+
+      <div class="paragraph-section">
+        <div class="para-label">Paragraph 1 — Introduction (Who? What? Where? When?) · פסקה 1 — הקדמה (מי? מה? איפה? מתי?)</div>
+        <textarea class="article-textarea" id="para1" placeholder="Start your article here. Tell the reader who, what, where and when..." rows="4" oninput="autoResize(this)"></textarea>
+      </div>
+
+      <div class="paragraph-section">
+        <div class="para-label">Paragraph 2 — What happened first? · פסקה 2 — מה קרה תחילה?</div>
+        <textarea class="article-textarea" id="para2" placeholder="Describe how it all began..." rows="4" oninput="autoResize(this)"></textarea>
+      </div>
+
+      <div class="paragraph-section">
+        <div class="para-label">Paragraph 3 — What happened next? · פסקה 3 — מה קרה לאחר מכן?</div>
+        <textarea class="article-textarea" id="para3" placeholder="Continue the story. What did people do?" rows="4" oninput="autoResize(this)"></textarea>
+      </div>
+
+      <div class="paragraph-section">
+        <div class="para-label">Paragraph 4 — Your ending! How did it end? · פסקה 4 — הסוף שלך!</div>
+        <textarea class="article-textarea" id="para4" placeholder="Create your own ending to the story! Use your imagination..." rows="4" oninput="autoResize(this)"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-20 flex gap-12" style="flex-wrap:wrap">
+    <button class="btn btn-primary" onclick="submitArticle()">✓ Submit Article for Feedback · הגש לקבלת משוב</button>
+    <button class="btn btn-outline" onclick="switchTab(5)">View My Score · ראה את הציון שלי →</button>
+  </div>
+
+  <div id="articleFeedback" class="ai-feedback-box" style="display:none">
+    <h4>🤖 AI Feedback on Your Article · משוב על הכתבה שלך</h4>
+    <div class="feedback-text" id="articleFeedbackText"></div>
+  </div>
+</div>
+
+<!-- ============ TAB 5: SCORE ============ -->
+<div class="tab-content" id="tab5">
+
+  <div class="score-panel" id="scorePanel">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;opacity:0.5;margin-bottom:8px">UNIT 4 · FINAL RESULTS · תוצאות סופיות</div>
+    <div class="big-score" id="finalScoreNum">—</div>
+    <div class="score-label" id="finalScoreLabel">Complete the exercises to see your score · השלם את התרגילים כדי לראות את הציון</div>
+    <div class="score-breakdown">
+      <div class="score-item">
+        <div class="item-score" id="scoreGrammar">0/0</div>
+        <div class="item-name">Grammar Exercises<br><span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif;font-size:0.75rem">תרגילי דקדוק</span></div>
+      </div>
+      <div class="score-item">
+        <div class="item-score" id="scoreConnectors">0/0</div>
+        <div class="item-name">Connectors<br><span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif;font-size:0.75rem">מחברים</span></div>
+      </div>
+      <div class="score-item">
+        <div class="item-score" id="scoreWriting">—</div>
+        <div class="item-name">Article Submitted<br><span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif;font-size:0.75rem">הגשת כתבה</span></div>
+      </div>
+    </div>
+    <div id="scoreMedal" style="margin-top:28px;font-size:3rem"></div>
+    <div id="scoreMessage" style="margin-top:12px;opacity:0.7;font-size:0.9rem;font-style:italic"></div>
+    <div style="margin-top:28px">
+      <button class="btn btn-secondary" onclick="switchTab(0)">↩ Review from the Start · חזור לתחילה</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const quickCheckData = [
+  { sentence: "While I _____ to school, I saw an accident.", verb: "walk", answer: "was walking", note: "ongoing background action → Past Progressive", heb: "פעולה שהייתה בעיצומה (רקע) = עבר ממושך" },
+  { sentence: "When the phone _____, we were having dinner.", verb: "ring", answer: "rang", note: "sudden interruption → Past Simple", heb: "פעולה פתאומית/קצרה שמפסיקה = עבר פשוט" },
+  { sentence: "She _____ her homework when her friends arrived.", verb: "do", answer: "was doing", note: "ongoing action = Past Progressive", heb: "הפעולה הממושכת (הרקע) = עבר ממושך" },
+  { sentence: "While they _____ the park, it started to rain.", verb: "cross", answer: "were crossing", note: "plural subject + ongoing = were + -ing", heb: "נושא ריבוי (they) + פעולה ממושכת = were + ing" },
+  { sentence: "He suddenly _____ a strange noise.", verb: "hear", answer: "heard", note: "sudden event → Past Simple", heb: "פעולה פתאומית (suddenly = רמז!) = עבר פשוט" },
+];
+
+const exAData = [
+  { a: "Lisa … (eat) in a restaurant", b_match: "c", b_text: "when a monkey … (steal) her phone.", a_answer: "was eating", b_answer: "stole" },
+  { a: "While Stephanie … (take) her dog for a walk,", b_match: "d", b_text: "it … (run away).", a_answer: "was taking", b_answer: "ran away" },
+  { a: "A snake suddenly … (appear)", b_match: "a", b_text: "while the boys … (explore) the forest.", a_answer: "appeared", b_answer: "were exploring" },
+  { a: "It … (begin) to rain", b_match: "b", b_text: "while Luke … (relax) on the beach.", a_answer: "began", b_answer: "was relaxing" },
+];
+
+const exBAnswers = ["lived","became","was getting","dropped","ate","gave","was walking","arrived","were waiting","were feeding","brought","managed"];
+
+const exBText = `Animals are often very kind, both to other animals and to people. They can also show that they understand what it means to be a friend. Crows that <BLANK:1:live> in Seattle <BLANK:2:become> friends with Gabi Mann. As a small child, while Gabi <BLANK:3:get out> of the car, she often <BLANK:4:drop> food and the crows <BLANK:5:eat> it. Then when she was older, she <BLANK:6:give> the crows some of her lunch while she <BLANK:7:walk> to school. One day, when she <BLANK:8:arrive> home from school, her friends, the birds, <BLANK:9:wait> for her. Gabi and her mother started to look after the crows every day. While they <BLANK:10:feed> some crows in the garden, others <BLANK:11:bring> Gabi "presents" like earrings, which they <BLANK:12:manage> to find in the street.`;
+
+const exCData = [
+  { prompt: "Jan 1: We / look for animals / in a house / we / find five small cats.", hints: ["was looking","found"], sample: "While we were looking for animals in a house, we found five small cats." },
+  { prompt: "Jan 2: My friends and I / take / the cats / to our car / we / see / their mother.", hints: ["were taking","saw"], sample: "While my friends and I were taking the cats to our car, we saw their mother." },
+  { prompt: "Jan 3: One of the cats / escape / our driver / put / it / in the car.", hints: ["escaped","was putting"], sample: "One of the cats escaped while our driver was putting it in the car." },
+  { prompt: "Chris 1: Emily and I / hear / an unusual noise / walk / in the street.", hints: ["were walking","heard"], sample: "While Emily and I were walking in the street, we heard an unusual noise." },
+  { prompt: "Chris 2: We / enter / a house / an old dog / lie / on the floor.", hints: ["entered","was lying"], sample: "When we entered the house, an old dog was lying on the floor." },
+  { prompt: "Chris 3: Emily / take care of / the dog / I / call / our friends for help.", hints: ["was taking care of","called"], sample: "While Emily was taking care of the dog, I called our friends for help." },
+];
+
+const exDAnswers = ["was working","saw","was looking","didn't know","opened","was sitting","was eating","called","were driving","closed","arrived","had finished","didn't want","tasted"];
+
+const exDText = `While I <BLANK:1:work> in my garden, I suddenly <BLANK:2:see> a monkey in my house. It <BLANK:3:look> at me through the window. I <BLANK:4:not know> what to do. When I <BLANK:5:open> the door, the monkey <BLANK:6:sit> at the table and it <BLANK:7:eat> my cake! I immediately <BLANK:8:call> the police. While they <BLANK:9:drive> to my house, I <BLANK:10:close> all the doors so that the monkey couldn't escape. When they <BLANK:11:arrive>, the monkey <BLANK:12:finish> the cake. He <BLANK:13:not want> to go back to the zoo with the policemen. I think it was because my cake <BLANK:14:taste> so good!`;
+
+const connectorData = [
+  { before: "Mrs. Livingstone doesn't usually let her cat go out of the house.", after: "this time the cat escaped.", answers: ["However", "however"], cap: true },
+  { before: "Mrs. Livingstone climbed the tree,", after: "she didn't manage to catch Penny.", answers: ["but"], cap: false },
+  { before: "Mrs. Livingstone loves Penny", after: "she takes good care of her.", answers: ["and", "so"], cap: false },
+  { before: "Penny can run fast and she can", after: "climb trees.", answers: ["also"], cap: false },
+  { before: "Mrs. Livingstone tried to climb the tree,", after: "it wasn't easy because she isn't young.", answers: ["even though", "but"], cap: false },
+  { before: "The firefighters came to help Mrs. Livingstone.", after: "an ambulance was sent to the park.", answers: ["In addition,", "In addition"], cap: true },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let scores = {
+  quickCheck: { got: 0, total: 0, done: false },
+  exA: { got: 0, total: 0, done: false },
+  exB: { got: 0, total: 0, done: false },
+  exC: { got: 0, total: 0, done: false },
+  exD: { got: 0, total: 0, done: false },
+  connectors: { got: 0, total: 0, done: false },
+  article: { submitted: false }
+};
+
+let retries = {}; // key → attempts left
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  buildQuickCheck();
+  buildExA();
+  buildExB();
+  buildExC();
+  buildExD();
+  buildConnectors();
+  updateScoreDisplay();
+});
+
+function switchTab(i) {
+  document.querySelectorAll('.tab-content').forEach((t,idx)=>t.classList.toggle('active',idx===i));
+  document.querySelectorAll('.tab-btn').forEach((b,idx)=>b.classList.toggle('active',idx===i));
+  if (i === 5) updateFinalScore();
+  window.scrollTo(0, 0);
+}
+
+function markTabComplete(i) {
+  document.querySelector(`#tabBtn${i}`).classList.add('completed');
+}
+
+// ============================================================
+// QUICK CHECK (Tab 0)
+// ============================================================
+function buildQuickCheck() {
+  const c = document.getElementById('quickCheck');
+  c.innerHTML = quickCheckData.map((q,i)=>`
+    <div class="sentence-builder" id="qc_wrap_${i}">
+      <div class="prompt">Verb: ${q.verb} &nbsp;|&nbsp; <span style="direction:rtl;font-family:'Segoe UI',Arial,sans-serif;color:#5a4a8a;font-size:0.78rem">${q.heb}</span></div>
+      <div style="font-size:0.95rem;line-height:2">${q.sentence.replace('_____',`<span class="blank"><input type="text" id="qc_${i}" placeholder="..." style="width:140px"></span>`)}</div>
+    </div>
+  `).join('');
+  scores.quickCheck.total = quickCheckData.length;
+  quickCheckData.forEach((_,i)=>{ retries[`qc_${i}`]=2; });
+}
+
+function checkQuickCheck() {
+  let got=0;
+  const fb = document.getElementById('quickCheckFeedback');
+  let html='';
+  quickCheckData.forEach((q,i)=>{
+    const inp=document.getElementById(`qc_${i}`);
+    const val=inp.value.trim().toLowerCase();
+    const correct=q.answer.toLowerCase();
+    if(val===correct){
+      inp.classList.remove('wrong','retry');inp.classList.add('correct');
+      got++;
+      html+=`<div class="feedback-item correct">✅ #${i+1}: Correct! "${q.answer}" — ${q.note} | <span dir="rtl">${q.heb}</span></div>`;
+    } else {
+      retries[`qc_${i}`]=(retries[`qc_${i}`]||2)-1;
+      if(retries[`qc_${i}`]>0){
+        inp.classList.add('retry');
+        html+=`<div class="feedback-item hint">💡 #${i+1}: Not quite. You have ${retries[`qc_${i}`]} more attempt(s). Hint: ${q.note} | <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">${q.heb}</span></div>`;
+      } else {
+        inp.value=q.answer;inp.classList.add('correct');got++;
+        html+=`<div class="feedback-item wrong">📖 #${i+1}: The answer is "${q.answer}". ${q.note}</div>`;
+      }
+    }
+  });
+  scores.quickCheck={got,total:quickCheckData.length,done:true};
+  fb.innerHTML=html;
+  if(got===quickCheckData.length)markTabComplete(0);
+  updateScoreDisplay();
+}
+
+// ============================================================
+// EXERCISE A
+// ============================================================
+function buildExA() {
+  const c = document.getElementById('exerciseA');
+  const bOptions = ['a','b','c','d'];
+  const bTexts = {a:'while the boys … (explore) the forest',b:'while Luke … (relax) on the beach,',c:'when a monkey … (steal) her phone.',d:'it … (run away).'};
+
+  c.innerHTML = `
+    <div style="font-size:0.82rem;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-bottom:12px">
+      COLUMN A — match each sentence to a part from column B, then fill in the verbs.
+    </div>
+    ${exAData.map((item,i)=>`
+      <div class="sentence-builder" id="exA_wrap_${i}">
+        <div class="prompt">Sentence ${i+1}</div>
+        <div style="line-height:2;font-size:0.93rem">
+          ${item.a.replace('…',`<span class="blank"><span class="blank-num">verb</span><input type="text" id="exAa_${i}" placeholder="..." style="width:130px"></span>`)}
+          → Match: <select id="exAm_${i}" class="match-select">
+            <option value="">—</option>
+            ${bOptions.map(o=>`<option value="${o}">${o}) ${bTexts[o]}</option>`).join('')}
+          </select>
+          <span id="exAb_text_${i}" style="margin-left:8px;font-size:0.88rem;color:var(--muted)"></span>
+          <br>
+          <span style="color:var(--muted);font-size:0.85rem">Verb in chosen part: </span>
+          <span class="blank"><span class="blank-num">verb</span><input type="text" id="exAb_${i}" placeholder="..." style="width:130px"></span>
+        </div>
+      </div>
+    `).join('')}
+  `;
+  
+  exAData.forEach((_,i)=>{
+    const sel=document.getElementById(`exAm_${i}`);
+    sel.addEventListener('change',()=>{
+      const bTextsMap={a:'while the boys were exploring the forest',b:'while Luke was relaxing on the beach',c:'when a monkey stole her phone',d:'it ran away'};
+      document.getElementById(`exAb_text_${i}`).textContent = sel.value ? '' : '';
+    });
+    retries[`exAa_${i}`]=2;retries[`exAb_${i}`]=2;retries[`exAm_${i}`]=2;
+  });
+  scores.exA.total = exAData.length * 3;
+}
+
+function checkExA() {
+  let got=0,total=exAData.length*3;
+  const fb=document.getElementById('exAFeedback');
+  let html='';
+  exAData.forEach((item,i)=>{
+    const va=document.getElementById(`exAa_${i}`).value.trim().toLowerCase();
+    const vm=document.getElementById(`exAm_${i}`).value;
+    const vb=document.getElementById(`exAb_${i}`).value.trim().toLowerCase();
+    // check match
+    if(vm===item.b_match){
+      got++;
+      html+=`<div class="feedback-item correct">✅ Sentence ${i+1} match: correct! <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">ההתאמה נכונה!</span></div>`;
+    } else {
+      html+=`<div class="feedback-item wrong">❌ Sentence ${i+1}: wrong match. Answer: ${item.b_match} <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">— ההתאמה לא נכונה</span></div>`;
+      document.getElementById(`exAm_${i}`).value=item.b_match;
+    }
+    // check verb A
+    const inpA=document.getElementById(`exAa_${i}`);
+    if(va===item.a_answer.toLowerCase()){got++;inpA.classList.add('correct');}
+    else {
+      retries[`exAa_${i}`]--;
+      if(retries[`exAa_${i}`]>0){inpA.classList.add('retry');html+=`<div class="feedback-item hint">💡 Sent.${i+1} verb-A: Try again (${retries[`exAa_${i}`]} left). Answer should be "${item.a_answer}". <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">נסה שוב — עוד ${retries[`exAa_${i}`]} ניסיון/ות</span></div>`;}
+      else{inpA.value=item.a_answer;inpA.classList.add('correct');got++;html+=`<div class="feedback-item wrong">📖 Sent.${i+1} verb-A: "${item.a_answer}" <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">— התשובה הנכונה</span></div>`;}
+    }
+    // check verb B
+    const inpB=document.getElementById(`exAb_${i}`);
+    if(vb===item.b_answer.toLowerCase()){got++;inpB.classList.add('correct');}
+    else {
+      retries[`exAb_${i}`]--;
+      if(retries[`exAb_${i}`]>0){inpB.classList.add('retry');html+=`<div class="feedback-item hint">💡 Sent.${i+1} verb-B: Try again (${retries[`exAb_${i}`]} left). It should be "${item.b_answer}". <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">נסה שוב — עוד ${retries[`exAb_${i}`]} ניסיון/ות</span></div>`;}
+      else{inpB.value=item.b_answer;inpB.classList.add('correct');got++;html+=`<div class="feedback-item wrong">📖 Sent.${i+1} verb-B: "${item.b_answer}" <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">— התשובה הנכונה</span></div>`;}
+    }
+  });
+  scores.exA={got,total,done:true};
+  fb.innerHTML=html||`<div class="feedback-item correct">✅ All correct! Well done! <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">הכל נכון! כל הכבוד! 🎉</span></div>`;
+  if(got===total)markTabComplete(1);
+  updateScoreDisplay();
+}
+
+// ============================================================
+// EXERCISE B
+// ============================================================
+function buildExB() {
+  const container = document.getElementById('exBText');
+  const lines = exBText.split('<BLANK:');
+  let html='';
+  lines.forEach((part,i)=>{
+    if(i===0){html+=part;return;}
+    const [meta,rest]=part.split('>');
+    const [num,verb]=meta.split(':');
+    html+=`<span class="blank"><span class="blank-num">${num}</span><input type="text" id="exB_${num}" placeholder="(${verb})" style="width:140px"></span>${rest}`;
+    retries[`exB_${num}`]=2;
+  });
+  container.innerHTML=html;
+  scores.exB.total=exBAnswers.length;
+}
+
+function checkExB() {
+  let got=0;
+  const fb=document.getElementById('exBFeedback');
+  let html='';
+  exBAnswers.forEach((ans,i)=>{
+    const num=i+1;
+    const inp=document.getElementById(`exB_${num}`);
+    if(!inp)return;
+    const val=inp.value.trim().toLowerCase();
+    if(val===ans.toLowerCase()){got++;inp.classList.remove('wrong','retry');inp.classList.add('correct');}
+    else{
+      retries[`exB_${num}`]=(retries[`exB_${num}`]||2)-1;
+      if(retries[`exB_${num}`]>0){inp.classList.add('retry');html+=`<div class="feedback-item hint">💡 #${num}: Not quite. Hint: "${ans.includes(' ')?'שתי מילים / two words':'חשוב על הזמן / think about the tense'}". ${retries[`exB_${num}`]} attempt(s) left. <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">עוד ${retries[`exB_${num}`]} ניסיון/ות</span></div>`;}
+      else{inp.value=ans;inp.classList.add('correct');got++;html+=`<div class="feedback-item wrong">📖 #${num}: "${ans}" <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">— זאת התשובה הנכונה</span></div>`;}
+    }
+  });
+  scores.exB={got,total:exBAnswers.length,done:true};
+  fb.innerHTML=html||`<div class="feedback-item correct">✅ Excellent work!</div>`;
+  updateScoreDisplay();
+}
+
+// ============================================================
+// EXERCISE C
+// ============================================================
+function buildExC() {
+  const c=document.getElementById('exerciseC');
+  c.innerHTML=exCData.map((item,i)=>`
+    <div class="sentence-builder" id="exC_wrap_${i}">
+      <div class="prompt">💬 ${item.prompt}</div>
+      <div style="font-size:0.8rem;color:var(--muted);margin-bottom:6px">Keywords: <em>${item.hints.join(' / ')}</em></div>
+      <textarea id="exC_${i}" placeholder="Write your sentence here using while / when..." rows="2" style="width:100%;border:none;border-bottom:2px solid var(--accent);background:transparent;font-family:'Source Serif 4',serif;font-size:0.93rem;resize:none;outline:none;padding:6px 0;color:var(--ink);line-height:1.8"></textarea>
+      <div id="exC_fb_${i}" style="font-size:0.8rem;margin-top:4px;min-height:18px"></div>
+    </div>
+  `).join('');
+  exCData.forEach((_,i)=>{retries[`exC_${i}`]=2;});
+  scores.exC.total=exCData.length;
+}
+
+function checkExC() {
+  let got=0;
+  const fb=document.getElementById('exCFeedback');
+  let html='';
+  exCData.forEach((item,i)=>{
+    const val=document.getElementById(`exC_${i}`).value.trim().toLowerCase();
+    const correct=item.hints.every(h=>val.includes(h.toLowerCase()));
+    const hasConnector=val.includes('while')||val.includes('when');
+    const itemFb=document.getElementById(`exC_fb_${i}`);
+    if(correct&&hasConnector){
+      got++;
+      document.getElementById(`exC_${i}`).style.borderBottomColor='var(--success)';
+      itemFb.innerHTML=`<span style="color:var(--success)">✅ Good sentence! <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif;font-size:0.78rem">מצוין! משפט נכון!</span></span>`;
+    } else {
+      retries[`exC_${i}`]--;
+      if(retries[`exC_${i}`]>0){
+        document.getElementById(`exC_${i}`).style.borderBottomColor='var(--warning)';
+        const missing=[];
+        if(!hasConnector)missing.push('while/when connector (בעברית: מחבר while/when)');
+        item.hints.forEach(h=>{if(!val.includes(h.toLowerCase()))missing.push(`"${h}"`);});
+        itemFb.innerHTML=`<span style="color:var(--warning)">💡 Check: missing ${missing.join(', ')}. ${retries[`exC_${i}`]} attempt(s) left. <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif;font-size:0.78rem">— עוד ${retries[`exC_${i}`]} ניסיון/ות</span></span>`;
+      } else {
+        document.getElementById(`exC_${i}`).value=item.sample;
+        document.getElementById(`exC_${i}`).style.borderBottomColor='var(--success)';
+        got++;
+        itemFb.innerHTML=`<span style="color:var(--accent2)">📖 Sample answer: "${item.sample}" <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">— דוגמה לתשובה נכונה</span></span>`;
+      }
+    }
+  });
+  scores.exC={got,total:exCData.length,done:true};
+  html=got===exCData.length?`<div class="feedback-item correct">✅ All sentences look great! <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">כל המשפטים נכונים! כל הכבוד! 🎉</span></div>`:
+    `<div class="feedback-item hint">💡 ${got}/${exCData.length} sentences correct. Review the ones in yellow above. <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">${got}/${exCData.length} משפטים נכונים — בדוק שוב את המסומנים בצהוב</span></div>`;
+  document.getElementById('exCFeedback').innerHTML=html;
+  updateScoreDisplay();
+}
+
+// ============================================================
+// EXERCISE D
+// ============================================================
+function buildExD() {
+  const container=document.getElementById('exDText');
+  const lines=exDText.split('<BLANK:');
+  let html='';
+  lines.forEach((part,i)=>{
+    if(i===0){html+=part;return;}
+    const [meta,rest]=part.split('>');
+    const [num,verb]=meta.split(':');
+    html+=`<span class="blank"><span class="blank-num">${num}</span><input type="text" id="exD_${num}" placeholder="(${verb})" style="width:140px"></span>${rest}`;
+    retries[`exD_${num}`]=2;
+  });
+  container.innerHTML=html;
+  scores.exD.total=exDAnswers.length;
+}
+
+function checkExD() {
+  let got=0;
+  const fb=document.getElementById('exDFeedback');
+  let html='';
+  exDAnswers.forEach((ans,i)=>{
+    const num=i+1;
+    const inp=document.getElementById(`exD_${num}`);
+    if(!inp)return;
+    const val=inp.value.trim().toLowerCase();
+    if(val===ans.toLowerCase()){got++;inp.classList.remove('wrong','retry');inp.classList.add('correct');}
+    else{
+      retries[`exD_${num}`]=(retries[`exD_${num}`]||2)-1;
+      if(retries[`exD_${num}`]>0){
+        inp.classList.add('retry');
+        html+=`<div class="feedback-item hint">💡 #${num} (${ans.includes(' ')?'two words — שתי מילים':'one word — מילה אחת'}): Try again. ${retries[`exD_${num}`]} attempt(s) left. <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">עוד ${retries[`exD_${num}`]} ניסיון/ות</span></div>`;
+      } else {
+        inp.value=ans;inp.classList.add('correct');got++;
+        html+=`<div class="feedback-item wrong">📖 #${num}: "${ans}"</div>`;
+      }
+    }
+  });
+  scores.exD={got,total:exDAnswers.length,done:true};
+  fb.innerHTML=html||`<div class="feedback-item correct">✅ Perfect! Great work on the monkey story! <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">מושלם! עבודה מעולה על סיפור הקוף! 🐒</span></div>`;
+  if(got===exDAnswers.length)markTabComplete(2);
+  updateScoreDisplay();
+}
+
+// ============================================================
+// CONNECTORS
+// ============================================================
+function buildConnectors() {
+  const c=document.getElementById('connectorExercise');
+  const opts=['and','in addition','but','however','also','even though'];
+  c.innerHTML=connectorData.map((item,i)=>`
+    <div class="connector-sentence" id="conn_wrap_${i}">
+      <span>${item.before}</span>
+      <select id="conn_${i}" class="conn-select">
+        <option value="">— choose —</option>
+        ${opts.map(o=>`<option value="${o}">${o}</option>`).join('')}
+      </select>
+      <span>${item.after}</span>
+    </div>
+  `).join('');
+  connectorData.forEach((_,i)=>{retries[`conn_${i}`]=2;});
+  scores.connectors.total=connectorData.length;
+}
+
+function checkConnectors() {
+  let got=0;
+  const fb=document.getElementById('connectorFeedback');
+  let html='';
+  connectorData.forEach((item,i)=>{
+    const sel=document.getElementById(`conn_${i}`);
+    const val=sel.value.trim().toLowerCase();
+    const correct=item.answers.some(a=>a.toLowerCase().replace(',','')===val.replace(',',''));
+    if(correct){
+      got++;sel.classList.add('correct');sel.classList.remove('wrong');
+      html+=`<div class="feedback-item correct">✅ #${i+1}: Correct! <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">נכון!</span></div>`;
+    } else {
+      retries[`conn_${i}`]--;
+      if(retries[`conn_${i}`]>0){
+        sel.classList.add('wrong');
+        html+=`<div class="feedback-item hint">💡 #${i+1}: Try again. ${retries[`conn_${i}`]} attempt(s) left. <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">נסה שוב — עוד ${retries[`conn_${i}`]} ניסיון/ות</span></div>`;
+      } else {
+        sel.value=item.answers[0].replace(',','');sel.classList.add('correct');got++;
+        html+=`<div class="feedback-item wrong">📖 #${i+1}: "${item.answers[0]}" <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">— זאת התשובה הנכונה</span></div>`;
+      }
+    }
+  });
+  scores.connectors={got,total:connectorData.length,done:true};
+  fb.innerHTML=html.length?html:`<div class="feedback-item correct">✅ All connectors correct! <span dir="rtl" style="font-family:'Segoe UI',Arial,sans-serif">כל המחברים נכונים! מצוין! 🎉</span></div>`;
+  if(got===connectorData.length)markTabComplete(3);
+  updateScoreDisplay();
+}
+
+// ============================================================
+// WRITING
+// ============================================================
+function insertConnector(word) {
+  const areas=['articleHeadline','para1','para2','para3','para4'];
+  let focused=null;
+  areas.forEach(id=>{
+    const el=document.getElementById(id);
+    if(document.activeElement===el)focused=el;
+  });
+  if(!focused)focused=document.getElementById('para1');
+  const start=focused.selectionStart||focused.value.length;
+  const end=focused.selectionEnd||focused.value.length;
+  const before=focused.value.substring(0,start);
+  const after=focused.value.substring(end);
+  focused.value=before+word+' '+after;
+  focused.focus();
+  focused.selectionStart=focused.selectionEnd=start+word.length+1;
+}
+
+function autoResize(el) {
+  el.style.height='auto';
+  el.style.height=(el.scrollHeight)+'px';
+}
+
+async function submitArticle() {
+  const headline=document.getElementById('articleHeadline').value.trim();
+  const p1=document.getElementById('para1').value.trim();
+  const p2=document.getElementById('para2').value.trim();
+  const p3=document.getElementById('para3').value.trim();
+  const p4=document.getElementById('para4').value.trim();
+  
+  if(!p1&&!p2){alert('Please write at least 2 paragraphs before submitting!\nיש לכתוב לפחות 2 פסקאות לפני ההגשה!');return;}
+  
+  const articleText=`Headline: ${headline}\n\nParagraph 1:\n${p1}\n\nParagraph 2:\n${p2}\n\nParagraph 3:\n${p3}\n\nParagraph 4:\n${p4}`;
+  
+  const box=document.getElementById('articleFeedback');
+  const txt=document.getElementById('articleFeedbackText');
+  box.style.display='block';
+  txt.innerHTML='<span class="loading-dots">Analysing your article | מנתח את הכתבה שלך</span>';
+  
+  const prompt=`You are a friendly, encouraging English teacher for Grade 8 students in Israel. 
+A student wrote the following newspaper article about a monkey that escaped from a zoo. 
+The students were asked to:
+- Use Past Simple and Past Progressive
+- Use connectors (and, but, however, in addition, also, even though, while, when)
+- Structure the article in 4 paragraphs (Who/What/Where/When, what happened first, what happened next, their own ending)
+- Write clearly and imaginatively
+
+Here is the student's article:
+${articleText}
+
+Please provide warm, specific feedback in 5-7 sentences. Cover:
+1. What they did WELL (be specific and genuine)
+2. Any grammar mistakes (Past Simple/Progressive usage) — if any
+3. Connector usage — are they used correctly?
+4. One suggestion to improve
+5. End with encouraging words
+
+Keep your tone very encouraging and appropriate for a 14-year-old student. Write in English.`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{role:"user",content:prompt}]
+      })
+    });
+    const data = await response.json();
+    const feedback = data.content?.map(b=>b.text||'').join('') || 'Feedback unavailable.';
+    txt.textContent = feedback;
+    scores.article.submitted=true;
+    markTabComplete(4);
+    updateScoreDisplay();
+  } catch(e) {
+    txt.textContent='Could not connect to the feedback system. Please make sure you\'re online, then try again. | לא ניתן להתחבר למערכת המשוב. ודא שאתה מחובר לאינטרנט ונסה שוב.';
+  }
+}
+
+// ============================================================
+// SCORE
+// ============================================================
+function updateScoreDisplay() {
+  let got=0,total=0;
+  [scores.quickCheck,scores.exA,scores.exB,scores.exC,scores.exD].forEach(s=>{
+    got+=s.got||0;total+=s.total||0;
+  });
+  const conn=scores.connectors;
+  got+=conn.got||0;total+=conn.total||0;
+  document.getElementById('headerScore').textContent=`Score: ${got} / ${total}`;
+}
+
+function updateFinalScore() {
+  let got=0,total=0;
+  const grammarScores=[scores.quickCheck,scores.exA,scores.exB,scores.exC,scores.exD];
+  grammarScores.forEach(s=>{got+=s.got||0;total+=s.total||0;});
+  const conn=scores.connectors;
+
+  document.getElementById('scoreGrammar').textContent=`${got}/${total}`;
+  document.getElementById('scoreConnectors').textContent=`${conn.got||0}/${conn.total||0}`;
+  document.getElementById('scoreWriting').textContent=scores.article.submitted?'✅ Submitted | הוגש':'Not yet | טרם הוגש';
+
+  const allGot=got+(conn.got||0);
+  const allTotal=total+(conn.total||0);
+  const pct=allTotal>0?Math.round((allGot/allTotal)*100):0;
+
+  document.getElementById('finalScoreNum').textContent=`${pct}%`;
+  document.getElementById('finalScoreLabel').textContent=`${allGot} out of ${allTotal} points · ${allGot} מתוך ${allTotal} נקודות`;
+
+  let medal='',msg='';
+  if(pct>=90){medal='🏆';msg='Outstanding! You truly mastered Past Progressive and newspaper writing! | מצוין! שלטת בחומר בצורה מרשימה!';}
+  else if(pct>=75){medal='🥇';msg='Excellent work! You have a strong grasp of the grammar and writing skills. | עבודה מעולה! יש לך הבנה חזקה של הדקדוק!';}
+  else if(pct>=60){medal='🥈';msg='Good job! Keep practising — you are making great progress! | כל הכבוד! המשך לתרגל — אתה מתקדם!';}
+  else{medal='📚';msg='Keep going! Every mistake is a learning opportunity. Review the tips and try again. | המשך לנסות! כל טעות היא הזדמנות ללמוד. עיין בהסברים ונסה שוב.';}
+
+  document.getElementById('scoreMedal').textContent=medal;
+  document.getElementById('scoreMessage').textContent=msg;
+  updateScoreDisplay();
+}
+</script>
+</body>
+</html>
