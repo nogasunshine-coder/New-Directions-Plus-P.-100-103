@@ -1697,61 +1697,131 @@ function autoResize(el) {
   el.style.height=(el.scrollHeight)+'px';
 }
 
-async function submitArticle() {
+function submitArticle() {
   const headline=document.getElementById('articleHeadline').value.trim();
   const p1=document.getElementById('para1').value.trim();
   const p2=document.getElementById('para2').value.trim();
   const p3=document.getElementById('para3').value.trim();
   const p4=document.getElementById('para4').value.trim();
-  
+
   if(!p1&&!p2){alert('Please write at least 2 paragraphs before submitting!\nיש לכתוב לפחות 2 פסקאות לפני ההגשה!');return;}
-  
-  const articleText=`Headline: ${headline}\n\nParagraph 1:\n${p1}\n\nParagraph 2:\n${p2}\n\nParagraph 3:\n${p3}\n\nParagraph 4:\n${p4}`;
-  
+
   const box=document.getElementById('articleFeedback');
   const txt=document.getElementById('articleFeedbackText');
   box.style.display='block';
-  txt.innerHTML='<span class="loading-dots">Analysing your article | מנתח את הכתבה שלך</span>';
-  
-  const prompt=`You are a friendly, encouraging English teacher for Grade 8 students in Israel. 
-A student wrote the following newspaper article about a monkey that escaped from a zoo. 
-The students were asked to:
-- Use Past Simple and Past Progressive
-- Use connectors (and, but, however, in addition, also, even though, while, when)
-- Structure the article in 4 paragraphs (Who/What/Where/When, what happened first, what happened next, their own ending)
-- Write clearly and imaginatively
+  txt.innerHTML='<span class="loading-dots">Checking your article | בודק את הכתבה שלך</span>';
 
-Here is the student's article:
-${articleText}
+  setTimeout(()=>{
+    const all=(headline+' '+p1+' '+p2+' '+p3+' '+p4).toLowerCase();
+    const paras=[p1,p2,p3,p4].filter(p=>p.length>0);
+    const wordCount=all.split(/\s+/).filter(w=>w.length>1).length;
+    const lines=[];
 
-Please provide warm, specific feedback in 5-7 sentences. Cover:
-1. What they did WELL (be specific and genuine)
-2. Any grammar mistakes (Past Simple/Progressive usage) — if any
-3. Connector usage — are they used correctly?
-4. One suggestion to improve
-5. End with encouraging words
+    // ── HEADLINE ──────────────────────────────────────────
+    if(headline.length>0){
+      lines.push({icon:'✅',en:`Great headline: "${headline}" — it grabs the reader's attention right away!`,he:'כותרת מעולה — היא תופסת את תשומת הלב של הקורא!'});
+    } else {
+      lines.push({icon:'💡',en:'Try adding a catchy headline to make your article stand out.',he:'נסה להוסיף כותרת מושכת — היא חשובה מאוד בכתבה עיתונאית!'});
+    }
 
-Keep your tone very encouraging and appropriate for a 14-year-old student. Write in English.`;
+    // ── WORD COUNT ────────────────────────────────────────
+    if(wordCount>=80){
+      lines.push({icon:'✅',en:`Your article is ${wordCount} words long — that's a great length for a newspaper article!`,he:`הכתבה שלך מכילה ${wordCount} מילים — אורך מעולה לכתבה עיתונאית!`});
+    } else if(wordCount>=40){
+      lines.push({icon:'💡',en:`Your article has ${wordCount} words. Try to develop your paragraphs a little more — aim for 80+ words.`,he:`הכתבה שלך מכילה ${wordCount} מילים. נסה להרחיב את הפסקאות — כוון ל-80 מילים ומעלה.`});
+    } else {
+      lines.push({icon:'⚠️',en:`Your article is quite short (${wordCount} words). Try to add more details to each paragraph.`,he:`הכתבה קצרה מדי (${wordCount} מילים). הוסף פרטים לכל פסקה!`});
+    }
 
-  try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{role:"user",content:prompt}]
-      })
-    });
-    const data = await response.json();
-    const feedback = data.content?.map(b=>b.text||'').join('') || 'Feedback unavailable.';
-    txt.textContent = feedback;
+    // ── PARAGRAPHS ────────────────────────────────────────
+    if(paras.length>=4){
+      lines.push({icon:'✅',en:'Excellent — you wrote all 4 paragraphs! Your article has a clear structure.',he:'מצוין — כתבת את כל 4 הפסקאות! לכתבה שלך יש מבנה ברור.'});
+    } else if(paras.length===3){
+      lines.push({icon:'💡',en:'You have 3 paragraphs. Try to add a 4th paragraph with your own creative ending!',he:'יש לך 3 פסקאות. נסה להוסיף פסקה 4 עם הסוף היצירתי שלך!'});
+    } else {
+      lines.push({icon:'⚠️',en:`You wrote ${paras.length} paragraph(s). A newspaper article needs 4 paragraphs.`,he:`כתבת ${paras.length} פסקה/ות. כתבה עיתונאית צריכה 4 פסקאות.`});
+    }
+
+    // ── PAST PROGRESSIVE ──────────────────────────────────
+    const ppPatterns=[/\bwas\s+\w+ing\b/,/\bwere\s+\w+ing\b/,/\bwasn't\s+\w+ing\b/,/\bweren't\s+\w+ing\b/];
+    const hasPP=ppPatterns.some(p=>p.test(all));
+    if(hasPP){
+      const match=all.match(/\b(?:was|were)\s+\w+ing\b/);
+      lines.push({icon:'✅',en:`Great use of Past Progressive! e.g. "${match?match[0]:'was/were + -ing'}" — exactly right.`,he:`שימוש מעולה בעבר ממושך! למשל: "${match?match[0]:'was/were + -ing'}" — בדיוק נכון.`});
+    } else {
+      lines.push({icon:'⚠️',en:'Remember to use the Past Progressive (was/were + verb-ing) for ongoing actions in the past.',he:'זכור להשתמש בעבר ממושך (was/were + פועל עם ing) לתיאור פעולות שהיו בעיצומן.'});
+    }
+
+    // ── PAST SIMPLE ───────────────────────────────────────
+    const psWords=['escaped','ran','saw','arrived','called','found','heard','entered','appeared','began','stole','started','noticed','drove','took','came','went','said','felt','tried'];
+    const foundPS=psWords.filter(w=>all.includes(w));
+    if(foundPS.length>=2){
+      lines.push({icon:'✅',en:`Good Past Simple usage — spotted: ${foundPS.slice(0,3).join(', ')}.`,he:`שימוש טוב בעבר פשוט — נמצא: ${foundPS.slice(0,3).join(', ')}.`});
+    } else if(foundPS.length===1){
+      lines.push({icon:'💡',en:`I see some Past Simple (${foundPS[0]}). Try to use more Past Simple verbs for the completed actions.`,he:`ראיתי עבר פשוט (${foundPS[0]}). נסה להשתמש ביותר פעלים בעבר פשוט לפעולות שהסתיימו.`});
+    } else {
+      lines.push({icon:'⚠️',en:'Make sure to use Past Simple for completed, short actions (e.g. escaped, ran, arrived).',he:'ודא שאתה משתמש בעבר פשוט לפעולות שהסתיימו (למשל: escaped, ran, arrived).'});
+    }
+
+    // ── CONNECTORS ────────────────────────────────────────
+    const connectors=['however','in addition','even though','although','despite','furthermore','moreover','also','additionally'];
+    const basicConn=['and','but','when','while','so','because'];
+    const advFound=connectors.filter(c=>all.includes(c));
+    const basicFound=basicConn.filter(c=>{const re=new RegExp('\\b'+c+'\\b'); return re.test(all);});
+    if(advFound.length>=1){
+      lines.push({icon:'✅',en:`Excellent connector use! You used: ${advFound.join(', ')} — these make your writing much more sophisticated.`,he:`שימוש מעולה במחברים! השתמשת ב: ${advFound.join(', ')} — זה הופך את הכתיבה לאיכותית יותר.`});
+    } else if(basicFound.length>=2){
+      lines.push({icon:'💡',en:`You used ${basicFound.join(', ')} — good start! Now try adding "however" or "in addition" to show contrast or add information.`,he:`השתמשת ב-${basicFound.join(', ')} — התחלה טובה! עכשיו נסה להוסיף "however" או "in addition".`});
+    } else {
+      lines.push({icon:'⚠️',en:'Try to use connectors like "however", "in addition", "even though" to link your ideas clearly.',he:'נסה להשתמש במחברים כמו "however", "in addition", "even though" כדי לקשר בין הרעיונות.'});
+    }
+
+    // ── WH QUESTIONS ─────────────────────────────────────
+    const whWords=['zoo','monkey','zookeeper','last','morning','afternoon','yesterday','today','week','suddenly'];
+    const whFound=whWords.filter(w=>all.includes(w));
+    if(whFound.length>=2){
+      lines.push({icon:'✅',en:'Your article answers the Wh- questions well — the reader knows who, what, where and when.',he:'הכתבה שלך עונה היטב על שאלות ה-Wh — הקורא יודע מי, מה, איפה ומתי.'});
+    }
+
+    // ── CREATIVITY ────────────────────────────────────────
+    const creativeWords=['amazing','incredible','unbelievable','shocked','surprised','suddenly','unfortunately','luckily','finally','eventually','however','meanwhile'];
+    const creativeFound=creativeWords.filter(w=>all.includes(w));
+    if(creativeFound.length>=2){
+      lines.push({icon:'🌟',en:`Your writing is very engaging! Words like "${creativeFound.slice(0,2).join('", "')}" make the story come alive.`,he:`הכתיבה שלך מרתקת! מילים כמו "${creativeFound.slice(0,2).join('", "')}" מחיות את הסיפור.`});
+    }
+
+    // ── CAPITALISATION check ──────────────────────────────
+    const sentences=all.replace(/[.!?]+/g,' ').split(' ').filter(w=>w.length>0);
+    const startsLower=/[a-z]/.test((p1||'')[0]);
+    if(!startsLower && p1.length>0){
+      lines.push({icon:'✅',en:'Good job with capital letters at the start of sentences!',he:'כל הכבוד על שימוש נכון באותיות גדולות בתחילת משפטים!'});
+    }
+
+    // ── ENCOURAGEMENT ────────────────────────────────────
+    const encPool=[
+      {en:"You've done a fantastic job with this article — keep up the great work! 🌟",he:'עשית עבודה מדהימה בכתבה הזו — כל הכבוד! 🌟'},
+      {en:"This is a really solid piece of writing. You should be proud of yourself! ✨",he:'זו כתיבה ממש חזקה. יש לך במה להתגאות! ✨'},
+      {en:"Well done! Every article you write makes you a better writer. Keep going! 💪",he:'עבודה מצוינת! כל כתבה שאתה כותב משפרת אותך. המשך כך! 💪'},
+    ];
+    const enc=encPool[Math.floor(Math.random()*encPool.length)];
+    lines.push({icon:'🎉',en:enc.en,he:enc.he});
+
+    // ── RENDER ────────────────────────────────────────────
+    const html=lines.map(l=>`
+      <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)">
+        <span style="font-size:1.2rem;min-width:28px">${l.icon}</span>
+        <div>
+          <div style="font-size:0.9rem;line-height:1.6">${l.en}</div>
+          <div style="direction:rtl;text-align:right;font-family:'Segoe UI',Arial,sans-serif;font-size:0.82rem;color:#5a4a8a;margin-top:3px">${l.he}</div>
+        </div>
+      </div>
+    `).join('');
+
+    txt.innerHTML=html;
     scores.article.submitted=true;
     markTabComplete(4);
     updateScoreDisplay();
-  } catch(e) {
-    txt.textContent='Could not connect to the feedback system. Please make sure you\'re online, then try again. | לא ניתן להתחבר למערכת המשוב. ודא שאתה מחובר לאינטרנט ונסה שוב.';
-  }
+  }, 900);
 }
 
 // ============================================================
